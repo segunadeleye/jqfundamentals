@@ -6,6 +6,7 @@ $(document).ready(function() {
   $h3.click(function(event) {
     
     event.preventDefault();
+    
     $p = $(this).siblings('p');
     $p.slideToggle();
 
