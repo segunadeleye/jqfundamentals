@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  $('#slideshow').prependTo('#main');
+
   $('#slideshow').find('li:gt(0)').hide();
   
   slideShow();
