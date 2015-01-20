@@ -7,7 +7,7 @@ Specials.prototype.getSpecial = function() {
   var that = this;
   
   var $specials = $('#specials');
-  var $div = $('<div />');
+  $div = $('<div />');
 
   $specials
     .append($div)
@@ -18,7 +18,7 @@ Specials.prototype.getSpecial = function() {
     .find('select')
       .change(function() {
         
-        var $option = $(this);
+        $option = $(this);
         
         $.getJSON('specials.json', function(data) {
 
