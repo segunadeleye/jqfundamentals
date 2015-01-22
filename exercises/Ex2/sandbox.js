@@ -39,7 +39,6 @@ SandBox.prototype.selecting = function() {
   // 6. Select all of the odd table rows in the table body.
 
     $oddNumeberRows = $('table tr:odd');
-
 }
 
 SandBox.prototype.traversing = function() {
@@ -57,29 +56,28 @@ SandBox.prototype.traversing = function() {
     $searchInput = $('input[name=q]');
     $searchInput
       .parent('#search')
-        .addClass('added-class');
+      .addClass('added-class');
 
   // 3. Select the list item inside #myList that has a class of “current” and remove that class from it; add a class of “current” to the next list item.
 
     $('#myList li.current')
       .removeClass('current')
       .next()
-        .addClass('current');
+      .addClass('current');
 
   // 4. Select the select element inside #specials; traverse your way to the submit button.
 
     $('#specials select')
       .parent()
-        .next()
-          .children();
+      .next()
+      .children();
 
   // 5. Select the first list item in the #slideshow element; add the class “current” to it, and then add a class of “disabled” to its sibling elements
 
     $('#slideshow li:first')
       .addClass('current')
       .siblings()
-        .addClass('disabled');
-
+      .addClass('disabled');
 }
 
 
