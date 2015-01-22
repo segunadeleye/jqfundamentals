@@ -1,30 +1,40 @@
-$(document).ready(function() {
 
-  $('#slideshow').prependTo('#main');
+function SlideShow() {
+}
 
-  $('#slideshow').find('li:gt(0)').hide();
+SlideShow.prototype.slide = function() {
+
+  that = this;
   
-  slideShow();
+  $('#slideshow').prependTo('#main');
+  $('#slideshow').find('li:gt(0)').hide();
+  that.slideShow();
+}
 
-});
+SlideShow.prototype.slideShow = function() {
 
-function slideShow() {
+  var $ul = $('#slideshow');
+  var $visibleSlide = $ul.find('li:visible');
+  var $nextSlide = $visibleSlide.next();
 
-  $ul = $('#slideshow');
-  $visibleSlide = $ul.find('li:visible');
-  $nextSlide = $visibleSlide.next();
-
-  if(!$nextSlide.length) {
+  if (!$nextSlide.length) {
     $nextSlide = $ul.children(':first');
-    fadeInOut();
+    that.fadeInOut($visibleSlide, $nextSlide);
   }
 
-  fadeInOut();    
-  setTimeout(slideShow, 5000);
+  that.fadeInOut($visibleSlide, $nextSlide);
+
+  setTimeout(that.slideShow, 5000);
 }
 
-function fadeInOut() {
-  $visibleSlide.fadeOut(800, function() {
-    $nextSlide.fadeIn(800);
+SlideShow.prototype.fadeInOut = function(slide, nextSlide) {
+  
+  slide.fadeOut(800, function() {
+    nextSlide.fadeIn(800);
   });
 }
+
+$(document).ready(function() {
+  var slideshow = new SlideShow();
+  slideshow.slide();
+});
