@@ -1,5 +1,8 @@
 
-$(document).ready(function() {
+function Blog() {
+}
+
+Blog.prototype.slide = function() {
   
   $h3 = $('#blog').find('h3');
 
@@ -10,8 +13,15 @@ $(document).ready(function() {
     $p = $(this).siblings('p');
     $p.slideToggle();
 
-    $(this).parent().siblings()
-            .find('p').slideUp();
+    $(this)
+      .parent()
+      .siblings()
+      .find('p')
+      .slideUp();
   });
+}
 
+$(document).ready(function() {
+  var blog = new Blog();
+  blog.slide();
 });
