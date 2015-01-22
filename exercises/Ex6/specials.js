@@ -12,21 +12,19 @@ Specials.prototype.getSpecial = function() {
   $specials
     .append($div)
     .find('li.buttons')
-      .remove();
+    .remove();
 
   $specials
     .find('select')
-      .change(function() {
+    .change(function() {
         
-        $option = $(this);
+      $option = $(this);
         
-        $.getJSON('specials.json', function(data) {
-
-          var day = $option.val();
-          that.displaySpecial(data, day);
-          
-        });
+      $.getJSON('specials.json', function(data) {
+        var day = $option.val();
+        that.displaySpecial(data, day);
       });
+    });
 }
 
 Specials.prototype.displaySpecial = function(response, value) {
