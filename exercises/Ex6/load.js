@@ -19,9 +19,9 @@ Load.prototype.loadPost = function() {
     var $li = $h3.parent('li');
     $li
       .append(
-        $h3
-          .data('postDiv')
-            .load('blog.html div:eq(' + $postId + ')'));
+      $h3
+      .data('postDiv')
+      .load('blog.html div:eq(' + $postId + ')'));
   });
 }
 
