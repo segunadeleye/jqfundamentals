@@ -5,21 +5,27 @@ function SlideShow() {
 SlideShow.prototype.slide = function() {
 
   that = this;
+
+  var $slides = $('#slideshow');
   
-  $('#slideshow').prependTo('#main');
-  $('#slideshow').find('li:gt(0)').hide();
-  that.slideShow();
+  $('#main')
+    .prepend($slides)
+    .find('li')
+    .hide();
+
+  $slides
+    .find('li:first')
+    .fadeIn(800, that.slideShow());
 }
 
 SlideShow.prototype.slideShow = function() {
 
-  var $ul = $('#slideshow');
-  var $visibleSlide = $ul.find('li:visible');
+  var $slides = $('#slideshow');
+  var $visibleSlide = $slides.find('li:visible');
   var $nextSlide = $visibleSlide.next();
 
   if (!$nextSlide.length) {
-    $nextSlide = $ul.children(':first');
-    that.fadeInOut($visibleSlide, $nextSlide);
+    $nextSlide = $slides.children(':first');
   }
 
   that.fadeInOut($visibleSlide, $nextSlide);
