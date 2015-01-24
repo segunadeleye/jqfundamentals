@@ -2,6 +2,7 @@
 function SlideShow() {
   this.totalSlides;
   this.currentImagePosition;
+  this.fadeSpeed = 500;
 }
 
 SlideShow.prototype.slide = function() {
@@ -18,7 +19,7 @@ SlideShow.prototype.slide = function() {
 
   $slides
     .find('li:first')
-    .fadeIn(500, this.slideShow());
+    .fadeIn(this.fadeSpeed, this.slideShow());
 
   this.createNavArea();
 }
@@ -42,8 +43,8 @@ SlideShow.prototype.slideShow = function() {
 
 SlideShow.prototype.fadeInOut = function(visibleSlide, nextSlide) {
   
-  visibleSlide.fadeOut(500, function() {
-    nextSlide.fadeIn(500);
+  visibleSlide.fadeOut(this.fadeSpeed, function() {
+    nextSlide.fadeIn(this.fadeSpeed);
   });
 }
 
@@ -60,7 +61,6 @@ SlideShow.prototype.createNavArea = function() {
 }
 
 SlideShow.prototype.getCurrentImagePosition = function(nextSlide) {
-
   this.currentImagePosition = nextSlide.prevAll().length + 1;
   $('#imagePostion').text(this.currentImagePosition);
 }
