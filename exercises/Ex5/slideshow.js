@@ -1,5 +1,6 @@
 
 function SlideShow() {
+  this.totalSlides;
 }
 
 SlideShow.prototype.slide = function() {
@@ -7,6 +8,7 @@ SlideShow.prototype.slide = function() {
   that = this;
 
   var $slides = $('#slideshow');
+  this.totalSlides = $slides.find('li').length;
   
   $('#main')
     .prepend($slides)
@@ -15,7 +17,9 @@ SlideShow.prototype.slide = function() {
 
   $slides
     .find('li:first')
-    .fadeIn(800, that.slideShow());
+    .fadeIn(300, this.slideShow());
+
+  this.createNavArea();
 }
 
 SlideShow.prototype.slideShow = function() {
@@ -35,9 +39,21 @@ SlideShow.prototype.slideShow = function() {
 
 SlideShow.prototype.fadeInOut = function(slide, nextSlide) {
   
-  slide.fadeOut(800, function() {
-    nextSlide.fadeIn(800);
+  slide.fadeOut(300, function() {
+    nextSlide.fadeIn(300);
   });
+}
+
+SlideShow.prototype.createNavArea = function() {
+
+  $span = $('<span />')
+            .attr('id', 'imagePostion')
+            .text();
+
+  $('<div />')
+    .html($span)
+    .append(' of ' + this.totalSlides)
+    .insertAfter('#slideshow');
 }
 
 $(document).ready(function() {
