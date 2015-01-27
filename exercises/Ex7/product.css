@@ -1,0 +1,25 @@
+ul {
+  list-style: none;
+  margin-left: -30px;
+}
+
+div#brandList, div#brandImages {
+  float: left;
+}
+
+#brandList {
+  width: 150px;
+}
+
+#brandImages {
+  width: 1150px;
+}
+
+button {
+  margin: 0 0 16px 13px;
+}
+
+#brandImages div {
+  margin: 0 0 10px 15px;
+  float: left;
+}
