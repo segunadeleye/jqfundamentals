@@ -19,10 +19,15 @@ Specials.prototype.getSpecial = function() {
     .change(function() {
         
       $option = $(this);
-        
-      $.getJSON('specials.json', function(data) {
-        var day = $option.val();
-        that.displaySpecial(data, day);
+
+      $.ajax({
+        url: 'specials.json',
+        dataType: 'json',
+        success: function(result) {
+          var day = $option.val();
+          that.displaySpecial(data, day);
+        },
+        cache: false
       });
     });
 }
