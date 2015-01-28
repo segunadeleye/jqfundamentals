@@ -2,8 +2,8 @@ function Product() {
 }
 
 Product.prototype.init = function() {
-  var that = this;
-  this.getAllProductDetails();
+  that = this;
+  this.getProducts(this.getAllProducts);
 
   var $brand = $('#brand').find('input');
   var $color = $('#color').find('input');
@@ -15,10 +15,10 @@ Product.prototype.init = function() {
   });
 
   $('#all').click(function() {
-    that.getAllProductDetails();
+    that.getProducts(that.getAllProducts);
   });
   $('#available').click(function() {
-    that.getAvailableProductDetails()
+    that.getProducts(that.getAvailableProducts);
   });
 }
 
@@ -64,59 +64,43 @@ Product.prototype.filterProducts = function(brand, color) {
   }
 }
 
-Product.prototype.getAllProductDetails = function() {
-  var that = this;
+Product.prototype.getProducts = function(callback) {
   $.ajax({
     url: 'product.json',
     dataType: 'json',
     success: function(result) {
-      that.getAllProducts(result);
-    },
-    cache: false
-  });
-}
-
-Product.prototype.getAvailableProductDetails = function() {
-  var that = this;
-  $.ajax({
-    url: 'product.json',
-    dataType: 'json',
-    success: function(result) {
-      that.getAvailableProducts(result);
+      callback(result);
     },
     cache: false
   });
 }
 
 Product.prototype.getAllProducts = function(data) {
-  this.emptyContainer();
+  that.emptyContainer();
   $.each(data, function(index, val) {
-    $div = $('<div />')
-      .addClass(val.brand)
-      .addClass(val.sold_out)
-      .addClass(val.color);
-    $name = $('<p />').text('Product Name: ' + val.name);
-    $image = $('<img />').attr('src', 'images/' + val.url);
-    $div.append($name, $image);
-    $('#brandImages').append($div);
+    that.displayProducts(val);
   });
 }
 
 Product.prototype.getAvailableProducts = function(data) {
-  this.emptyContainer();
+  that.emptyContainer();
   $.each(data, function(index, val) {
     if (val.sold_out === '0') {
-      $div = $('<div />')
-        .addClass(val.brand)
-        .addClass(val.sold_out)
-        .addClass(val.color);
-      $name = $('<p />').text('Product Name: ' + val.name);
-      $image = $('<img />').attr('src', 'images/' + val.url);
-      $div.append($name, $image);
-      $('#brandImages').append($div);
+      that.displayProducts(val);
     }
   });
 }
+
+Product.prototype.displayProducts = function(data) {
+  $div = $('<div />')
+    .addClass(data.brand)
+    .addClass(data.sold_out)
+    .addClass(data.color);
+  $name = $('<p />').text('Product Name: ' + data.name);
+  $image = $('<img />').attr('src', 'images/' + data.url);
+  $div.append($name, $image);
+  $('#brandImages').append($div);
+};
 
 Product.prototype.emptyContainer = function() {
   $('#brandImages').empty();
