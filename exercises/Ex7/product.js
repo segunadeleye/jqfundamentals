@@ -3,33 +3,60 @@ function Product() {
 
 Product.prototype.init = function() {
   that = this;
-  this.getProducts(this.getAllProducts);
+  this.getProductDetails(this.getAllProducts);
 
   var $brand = $('#brand').find('input');
   var $color = $('#color').find('input');
-  $color.click(function() {
-    that.getChecked();
-  });
   $brand.click(function() {
-    that.getChecked();
+    that.getCheckedOptions();
+  });
+  $color.click(function() {
+    that.getCheckedOptions();
   });
 
   $('#all').click(function() {
-    that.getProducts(that.getAllProducts);
+    that.getProductDetails(that.getAllProducts);
   });
   $('#available').click(function() {
-    that.getProducts(that.getAvailableProducts);
+    that.getProductDetails(that.getAvailableProducts);
   });
 }
 
-Product.prototype.getChecked = function() {
+Product.prototype.getProductDetails = function(callback) {
+  $.ajax({
+    url: 'product.json',
+    dataType: 'json',
+    success: function(data) {
+      callback(data);
+    },
+    cache: false
+  });
+}
+
+Product.prototype.getCheckedOptions = function() {
   var $checkedBrand = $('#brand').find('input:checked');
   var $checkedColor = $('#color').find('input:checked');
   this.filterProducts($checkedBrand, $checkedColor);
 }
 
+Product.prototype.getAllProducts = function(data) {
+  that.emptyContainer();
+  $.each(data, function(index, val) {
+    that.displayProducts(val);
+  });
+}
+
+Product.prototype.getAvailableProducts = function(data) {
+  that.emptyContainer();
+  $.each(data, function(index, val) {
+    if (val.sold_out === '0') {
+      that.displayProducts(val);
+    }
+  });
+}
+
 Product.prototype.filterProducts = function(brand, color) {
-  $productImages = $('#brandImages');
+  var $productImages = $('#brandImages');
   $productImages
     .find('div')
     .hide();
@@ -64,43 +91,16 @@ Product.prototype.filterProducts = function(brand, color) {
   }
 }
 
-Product.prototype.getProducts = function(callback) {
-  $.ajax({
-    url: 'product.json',
-    dataType: 'json',
-    success: function(result) {
-      callback(result);
-    },
-    cache: false
-  });
-}
-
-Product.prototype.getAllProducts = function(data) {
-  that.emptyContainer();
-  $.each(data, function(index, val) {
-    that.displayProducts(val);
-  });
-}
-
-Product.prototype.getAvailableProducts = function(data) {
-  that.emptyContainer();
-  $.each(data, function(index, val) {
-    if (val.sold_out === '0') {
-      that.displayProducts(val);
-    }
-  });
-}
-
-Product.prototype.displayProducts = function(data) {
-  $div = $('<div />')
-    .addClass(data.brand)
-    .addClass(data.sold_out)
-    .addClass(data.color);
-  $name = $('<p />').text('Product Name: ' + data.name);
-  $image = $('<img />').attr('src', 'images/' + data.url);
+Product.prototype.displayProducts = function(product) {
+  var $div = $('<div />')
+    .addClass(product.brand)
+    .addClass(product.sold_out)
+    .addClass(product.color);
+  $name = $('<p />').text('Product Name: ' + product.name);
+  $image = $('<img />').attr('src', 'images/' + product.url);
   $div.append($name, $image);
   $('#brandImages').append($div);
-};
+}
 
 Product.prototype.emptyContainer = function() {
   $('#brandImages').empty();
