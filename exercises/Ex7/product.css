@@ -1,6 +1,6 @@
 ul {
   list-style: none;
-  margin-left: -30px;
+  margin-left: -40px;
 }
 
 div#brandList, div#brandImages {
@@ -8,15 +8,15 @@ div#brandList, div#brandImages {
 }
 
 #brandList {
-  width: 150px;
+  width: 11%;
 }
 
 #brandImages {
-  width: 1150px;
+  width: 89%;
 }
 
 button {
-  margin: 0 0 16px 13px;
+  margin: 10px 0 0 5px;
 }
 
 #brandImages div {
