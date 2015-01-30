@@ -13,6 +13,7 @@ ItemStack.prototype.addItem = function() {
   $('#add').click(function() {
     $('<div />')
       .text(++that.itemCount)
+      .addClass('stack')
       .appendTo('#container');
   });
 }
