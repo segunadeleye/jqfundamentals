@@ -16,7 +16,7 @@ ProductList.prototype.init = function() {
   });
 
   $('#all').click(function() {
-    that.getProductDetails(that.getAllProducts);
+    that.getAllProducts(that.list);
   });
 }
 
