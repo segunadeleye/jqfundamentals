@@ -2,15 +2,19 @@ function ItemStack() {
   this.itemCount = 0;
 }
 
-ItemStack.prototype.addItem = function() {  
+ItemStack.prototype.init = function() {  
   that = this;
+  this.addItem();
+  this.hightlightItem();
+  this.removeItem();
+}
+
+ItemStack.prototype.addItem = function() {
   $('#add').click(function() {
     $('<div />')
       .text(++that.itemCount)
       .appendTo('#container');
   });
-  this.hightlightItem();
-  this.removeItem();
 }
 
 ItemStack.prototype.hightlightItem = function() {
@@ -28,5 +32,5 @@ ItemStack.prototype.removeItem = function() {
 
 $(document).ready(function() {
   var stack = new ItemStack();
-  stack.addItem();
+  stack.init();
 });
