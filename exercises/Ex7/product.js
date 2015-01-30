@@ -6,8 +6,8 @@ ProductList.prototype.init = function() {
   that = this;
   this.getProductDetails(this.getList);
 
-  var $brands = $('#brand').find('input');
-  var $colors = $('#color').find('input');
+  var $brands = $('#brands').find('input');
+  var $colors = $('#colors').find('input');
   $brands
     .add($colors)
     .add('#available')
@@ -38,10 +38,10 @@ ProductList.prototype.getList = function(response) {
 
 ProductList.prototype.getCheckedOptions = function() {
   var soldOut = '';
-  var $checkedBrand = $('#brand').find('input:checked');
-  var $checkedColor = $('#color').find('input:checked');
-  var $checkedAvailable = $('input#available');
-  if ($checkedAvailable.is(':checked')) {
+  var $checkedBrands = $('#brands').find('input:checked');
+  var $checkedColors = $('#colors').find('input:checked');
+  var availableProductsChecked = $('input#available').is(':checked');
+  if (availableProductsChecked) {
     soldOut = '.0';
   }
   this.filterProducts($checkedBrand, $checkedColor, soldOut);
@@ -54,37 +54,37 @@ ProductList.prototype.getAllProducts = function(data) {
   });
 }
 
-ProductList.prototype.filterProducts = function(brand, color, soldOut) {
-  var $productImages = $('#brandImages');
-  $productImages
+ProductList.prototype.filterProducts = function(brands, colors, soldOut) {
+  var $productList = $('#productList');
+  $productList
     .find('div')
     .hide();
 
-  if (brand.length) {
-    brand.each(function() {
+  if (brands.length) {
+    brands.each(function() {
       brandClass = '.' + $(this).val();
-      if (color.length) {
-        color.each(function() {
+      if (colors.length) {
+        colors.each(function() {
           colorClass = '.' + $(this).val();
           var productClass = brandClass + colorClass + soldOut;
-          $productImages
+          $productList
             .find('div' + productClass)
             .show();
         });
       } else {
-        $productImages
+        $productList
           .find('div' + brandClass + soldOut)
           .show();
       }
     });
-  } else if (color.length) {
-    color.each(function() {
-      $productImages
+  } else if (colors.length) {
+    colors.each(function() {
+      $productList
         .find('div.' + $(this).val() + soldOut)
         .show();
     });
   } else {
-    $productImages
+    $productList
       .find('div' + soldOut)  
       .show();
   }
@@ -92,18 +92,18 @@ ProductList.prototype.filterProducts = function(brand, color, soldOut) {
 
 ProductList.prototype.displayProducts = function(product) {
   var $div = $('<div />')
-    .addClass(product.brand)
-    .addClass(product.sold_out)
-    .addClass(product.color);
+              .addClass(product.brand)
+              .addClass(product.sold_out)
+              .addClass(product.color);
   $name = $('<p />').text('Product Name: ' + product.name);
   $image = $('<img />').attr('src', 'images/' + product.url);
   $div.append($name, $image);
-  $('#brandImages').append($div);
+  $('#productList').append($div);
 }
 
 ProductList.prototype.emptyContainer = function() {
-  $('#brandImages').empty();
-  $('#brandList')
+  $('#productList').empty();
+  $('#filterOptions')
     .find('input:checked')
     .prop('checked', '');
 }
