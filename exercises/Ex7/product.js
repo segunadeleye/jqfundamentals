@@ -4,7 +4,7 @@ function ProductList() {
 
 ProductList.prototype.init = function() {
   that = this;
-  this.getProductDetails(this.getAllProducts);
+  this.getProductDetails(this.getList);
 
   var $brand = $('#brand').find('input');
   var $color = $('#color').find('input');
@@ -32,6 +32,11 @@ ProductList.prototype.getProductDetails = function(callback) {
     },
     cache: false
   });
+}
+
+ProductList.prototype.getList = function(response) {
+  that.list = response;
+  that.getAllProducts(that.list);
 }
 
 ProductList.prototype.getCheckedOptions = function() {
@@ -111,6 +116,6 @@ ProductList.prototype.emptyContainer = function() {
 }
 
 $(document).ready(function() {
-  var product = new ProductList();
-  product.init();
+  var productList = new ProductList();
+  productList.init();
 });
