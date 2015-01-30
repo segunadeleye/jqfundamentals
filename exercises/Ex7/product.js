@@ -2,7 +2,7 @@ function ProductList() {
   this.list;
 }
 
-Product.prototype.init = function() {
+ProductList.prototype.init = function() {
   that = this;
   this.getProductDetails(this.getAllProducts);
 
@@ -23,7 +23,7 @@ Product.prototype.init = function() {
   });
 }
 
-Product.prototype.getProductDetails = function(callback) {
+ProductList.prototype.getProductDetails = function(callback) {
   $.ajax({
     url: 'product.json',
     dataType: 'json',
@@ -34,20 +34,20 @@ Product.prototype.getProductDetails = function(callback) {
   });
 }
 
-Product.prototype.getCheckedOptions = function() {
+ProductList.prototype.getCheckedOptions = function() {
   var $checkedBrand = $('#brand').find('input:checked');
   var $checkedColor = $('#color').find('input:checked');
   this.filterProducts($checkedBrand, $checkedColor);
 }
 
-Product.prototype.getAllProducts = function(data) {
+ProductList.prototype.getAllProducts = function(data) {
   that.emptyContainer();
   $.each(data, function(index, val) {
     that.displayProducts(val);
   });
 }
 
-Product.prototype.getAvailableProducts = function(data) {
+ProductList.prototype.getAvailableProducts = function(data) {
   that.emptyContainer();
   $.each(data, function(index, val) {
     if (val.sold_out === '0') {
@@ -56,7 +56,7 @@ Product.prototype.getAvailableProducts = function(data) {
   });
 }
 
-Product.prototype.filterProducts = function(brand, color) {
+ProductList.prototype.filterProducts = function(brand, color) {
   var $productImages = $('#brandImages');
   $productImages
     .find('div')
@@ -92,7 +92,7 @@ Product.prototype.filterProducts = function(brand, color) {
   }
 }
 
-Product.prototype.displayProducts = function(product) {
+ProductList.prototype.displayProducts = function(product) {
   var $div = $('<div />')
     .addClass(product.brand)
     .addClass(product.sold_out)
@@ -103,7 +103,7 @@ Product.prototype.displayProducts = function(product) {
   $('#brandImages').append($div);
 }
 
-Product.prototype.emptyContainer = function() {
+ProductList.prototype.emptyContainer = function() {
   $('#brandImages').empty();
   $('#brandList')
     .find('input:checked')
@@ -111,6 +111,6 @@ Product.prototype.emptyContainer = function() {
 }
 
 $(document).ready(function() {
-  var product = new Product();
+  var product = new ProductList();
   product.init();
 });
