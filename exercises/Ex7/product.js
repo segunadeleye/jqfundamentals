@@ -37,9 +37,14 @@ ProductList.prototype.getList = function(response) {
 }
 
 ProductList.prototype.getCheckedOptions = function() {
+  var soldOut = '';
   var $checkedBrand = $('#brand').find('input:checked');
   var $checkedColor = $('#color').find('input:checked');
-  this.filterProducts($checkedBrand, $checkedColor);
+  var $checkedAvailable = $('input#available');
+  if ($checkedAvailable.is(':checked')) {
+    soldOut = '.0';
+  }
+  this.filterProducts($checkedBrand, $checkedColor, soldOut);
 }
 
 ProductList.prototype.getAllProducts = function(data) {
@@ -49,16 +54,7 @@ ProductList.prototype.getAllProducts = function(data) {
   });
 }
 
-ProductList.prototype.getAvailableProducts = function(data) {
-  that.emptyContainer();
-  $.each(data, function(index, val) {
-    if (val.sold_out === '0') {
-      that.displayProducts(val);
-    }
-  });
-}
-
-ProductList.prototype.filterProducts = function(brand, color) {
+ProductList.prototype.filterProducts = function(brand, color, soldOut) {
   var $productImages = $('#brandImages');
   $productImages
     .find('div')
@@ -70,26 +66,26 @@ ProductList.prototype.filterProducts = function(brand, color) {
       if (color.length) {
         color.each(function() {
           colorClass = '.' + $(this).val();
-          var productClass = brandClass + colorClass;
+          var productClass = brandClass + colorClass + soldOut;
           $productImages
             .find('div' + productClass)
             .show();
         });
       } else {
         $productImages
-          .find('div.' + $(this).val())
+          .find('div' + brandClass + soldOut)
           .show();
       }
     });
   } else if (color.length) {
     color.each(function() {
       $productImages
-        .find('div.' + $(this).val())
+        .find('div.' + $(this).val() + soldOut)
         .show();
     });
   } else {
     $productImages
-      .find('div')
+      .find('div' + soldOut)  
       .show();
   }
 }
