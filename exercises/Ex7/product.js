@@ -1,5 +1,5 @@
 function ProductList() {
-  this.response;
+  this.list;
 }
 
 Product.prototype.init = function() {
