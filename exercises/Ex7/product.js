@@ -6,20 +6,17 @@ ProductList.prototype.init = function() {
   that = this;
   this.getProductDetails(this.getList);
 
-  var $brand = $('#brand').find('input');
-  var $color = $('#color').find('input');
-  $brand.click(function() {
-    that.getCheckedOptions();
-  });
-  $color.click(function() {
+  var $brands = $('#brand').find('input');
+  var $colors = $('#color').find('input');
+  $brands
+    .add($colors)
+    .add('#available')
+    .click(function() {
     that.getCheckedOptions();
   });
 
   $('#all').click(function() {
     that.getProductDetails(that.getAllProducts);
-  });
-  $('#available').click(function() {
-    that.getProductDetails(that.getAvailableProducts);
   });
 }
 
