@@ -5,8 +5,7 @@ function ItemStack() {
 ItemStack.prototype.init = function() {  
   that = this;
   this.addItem();
-  this.hightlightItem();
-  this.removeItem();
+  this.hightlightOrDeleteItem();
 }
 
 ItemStack.prototype.addItem = function() {
@@ -18,16 +17,15 @@ ItemStack.prototype.addItem = function() {
   });
 }
 
-ItemStack.prototype.hightlightItem = function() {
+ItemStack.prototype.hightlightOrDeleteItem = function() {
   $('#container').delegate('div', 'click', function() {
-    $(this).addClass('highlighted');
-  });
-}
-
-ItemStack.prototype.removeItem = function() {
-  $('#container').on('click', 'div:last', function() {
-    $(this).remove();
-    --that.itemCount;
+    var $this = $(this);
+    if ($this.is(':last-child')) {
+      $this.remove();
+      --that.itemCount;
+    } else {
+      $this.addClass('highlighted');
+    }
   });
 }
 
