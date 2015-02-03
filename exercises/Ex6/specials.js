@@ -1,11 +1,23 @@
-
 function Specials() {
 }
 
-Specials.prototype.getSpecial = function() {
+Specials.prototype.init = function() {
+  that = this;
+  this.getList(this.filter);
+}
 
-  var that = this;
-  
+Specials.prototype.getList = function(callback) {
+  $.ajax({
+    url: 'specials.json',
+    dataType: 'json',
+    success: function(result) {
+      callback(result);
+    },
+    cache: false
+  });
+}
+
+Specials.prototype.filter = function(list) {
   var $specials = $('#specials');
   $div = $('<div />');
 
@@ -17,50 +29,31 @@ Specials.prototype.getSpecial = function() {
   $specials
     .find('select')
     .change(function() {
-        
-      $option = $(this);
-
-      $.ajax({
-        url: 'specials.json',
-        dataType: 'json',
-        success: function(result) {
-          var day = $option.val();
-          that.displaySpecial(data, day);
-        },
-        cache: false
-      });
-    });
+      var day = $(this).val();
+      var special = list[day];
+      $div.empty();
+      if (special) {
+        that.display(special);        
+      }
+  });
 }
 
-Specials.prototype.displaySpecial = function(response, value) {
+Specials.prototype.display = function(data) {
+  var $title = $('<h2 />');
+  var $text = $('<p />');
+  var $image = $('<img />');
 
-  if (value) {
-    
-    $div.empty();
+  $div.append($title, $text, $image);
+  
+  $title
+    .css('color', data.color)
+    .html(data.title);
 
-    var $title = $('<h2 />');
-    var $text = $('<p />');
-    var $image = $('<img />');
-
-    $div.append($title, $text, $image);
-
-    var special = response[value];
-    
-    $title
-      .css('color', special.color)
-      .html(special.title);
-
-    $text.html(special.text);
-    $image.attr('src', special.image);
-
-  } else {
-    $div.empty();
-  }
-};
+  $text.html(data.text);
+  $image.attr('src', data.image);
+}
 
 $(document).ready(function() {
-
   var specials = new Specials();
-  specials.getSpecial();
-
+  specials.init();
 });
