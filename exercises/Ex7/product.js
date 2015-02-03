@@ -44,7 +44,7 @@ ProductList.prototype.getCheckedOptions = function() {
   if (availableProductsChecked) {
     soldOut = '.0';
   }
-  this.filterProducts($checkedBrand, $checkedColor, soldOut);
+  this.filterProducts($checkedBrands, $checkedColors, soldOut);
 }
 
 ProductList.prototype.getAllProducts = function(data) {
