@@ -1,11 +1,9 @@
-
-function Navigation() {
+function Navigation(navId) {
+  this.navId = navId;
 }
 
 Navigation.prototype.showDropDown = function() {
-  
-  $navTab = $('#nav li');
-
+  $navTab = $('#' + this.navId +' li');
   $navTab.hover(
     function() {
       $(this)
@@ -13,7 +11,6 @@ Navigation.prototype.showDropDown = function() {
         .find('ul')
         .show();
     },
-    
     function() {
       $(this)
         .removeClass('hover')
@@ -24,6 +21,6 @@ Navigation.prototype.showDropDown = function() {
 }
 
 $(document).ready(function() {
-  var navigation = new Navigation;
+  var navigation = new Navigation('nav');
   navigation.showDropDown();
 });
