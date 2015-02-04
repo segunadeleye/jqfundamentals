@@ -1,13 +1,10 @@
 function SlideShow() {
-  this.totalSlides;
-  this.currentImagePosition;
   this.fadeSpeed = 500;
 }
 
 SlideShow.prototype.slide = function() {
   that = this;
   var $slides = $('#slideshow');
-  this.totalSlides = $slides.find('li').length;
 
   $slides
     .prependTo('#main')
@@ -25,11 +22,10 @@ SlideShow.prototype.slideShow = function() {
   var $slides = $('#slideshow');
   var $visibleSlide = $slides.find('li:visible');
   var $nextSlide = $visibleSlide.next();
-
-  that.getCurrentImagePosition($nextSlide);
   if (!$nextSlide.length) {
     $nextSlide = $slides.children(':first');
   }
+  that.setCurrentImagePosition($nextSlide);
   that.fadeInOut($visibleSlide, $nextSlide);
   setTimeout(that.slideShow, 5000);
 }
@@ -41,18 +37,19 @@ SlideShow.prototype.fadeInOut = function(visibleSlide, nextSlide) {
 }
 
 SlideShow.prototype.createNavArea = function() {
+  var totalSlides = $('#slideshow').find('li').length;
   $span = $('<span />')
             .attr('id', 'imagePostion')
-            .text(this.currentImagePosition);
+            .text(1);
   $('<div />')
     .html($span)
-    .append(' of ' + this.totalSlides)
+    .append(' of ' + totalSlides)
     .insertAfter('#slideshow');
 }
 
-SlideShow.prototype.getCurrentImagePosition = function(nextSlide) {
-  this.currentImagePosition = nextSlide.prevAll().length + 1;
-  $('#imagePostion').text(this.currentImagePosition);
+SlideShow.prototype.setCurrentImagePosition = function(nextSlide) {
+  var currentImagePosition = nextSlide.index() + 1;
+  $('#imagePostion').text(currentImagePosition);
 }
 
 $(document).ready(function() {
