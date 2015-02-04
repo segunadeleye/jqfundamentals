@@ -37,14 +37,14 @@ ProductList.prototype.getList = function(response) {
 }
 
 ProductList.prototype.getCheckedOptions = function() {
-  var soldOut = '';
+  var productStatus = '';
   var $checkedBrands = $('#brands').find('input:checked');
   var $checkedColors = $('#colors').find('input:checked');
   var availableProductsChecked = $('input#available').is(':checked');
   if (availableProductsChecked) {
-    soldOut = '.0';
+    productStatus = '.available';
   }
-  this.filterProducts($checkedBrands, $checkedColors, soldOut);
+  this.filterProducts($checkedBrands, $checkedColors, productStatus);
 }
 
 ProductList.prototype.getAllProducts = function(data) {
@@ -54,7 +54,7 @@ ProductList.prototype.getAllProducts = function(data) {
   });
 }
 
-ProductList.prototype.filterProducts = function(brands, colors, soldOut) {
+ProductList.prototype.filterProducts = function(brands, colors, productStatus) {
   var $productList = $('#productList');
   $productList
     .find('div')
@@ -66,34 +66,38 @@ ProductList.prototype.filterProducts = function(brands, colors, soldOut) {
       if (colors.length) {
         colors.each(function() {
           colorClass = '.' + $(this).val();
-          var productClass = brandClass + colorClass + soldOut;
+          var productClass = brandClass + colorClass + productStatus;
           $productList
             .find('div' + productClass)
             .show();
         });
       } else {
         $productList
-          .find('div' + brandClass + soldOut)
+          .find('div' + brandClass + productStatus)
           .show();
       }
     });
   } else if (colors.length) {
     colors.each(function() {
       $productList
-        .find('div.' + $(this).val() + soldOut)
+        .find('div.' + $(this).val() + productStatus)
         .show();
     });
   } else {
     $productList
-      .find('div' + soldOut)  
+      .find('div' + productStatus)  
       .show();
   }
 }
 
 ProductList.prototype.displayProducts = function(product) {
+  var productStatus;
+  if (product.sold_out === '0') {
+    productStatus = 'available';
+  }
   var $div = $('<div />')
               .addClass(product.brand)
-              .addClass(product.sold_out)
+              .addClass(productStatus)
               .addClass(product.color);
   $name = $('<p />').text('Product Name: ' + product.name);
   $image = $('<img />').attr('src', 'images/' + product.url);
