@@ -1,4 +1,5 @@
 function Specials() {
+  this.list;
 }
 
 Specials.prototype.init = function() {
@@ -15,6 +16,10 @@ Specials.prototype.getList = function(callback) {
     },
     cache: false
   });
+}
+
+Specials.prototype.saveList = function(list) {
+  this.list = list;
 }
 
 Specials.prototype.filter = function(list) {
