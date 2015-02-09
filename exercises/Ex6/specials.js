@@ -4,15 +4,16 @@ function Specials() {
 
 Specials.prototype.init = function() {
   that = this;
-  this.getList(this.filter);
+  this.getList();
+  this.filter
 }
 
-Specials.prototype.getList = function(callback) {
+Specials.prototype.getList = function() {
   $.ajax({
     url: 'specials.json',
     dataType: 'json',
     success: function(result) {
-      callback(result);
+      saveList(result);
     },
     cache: false
   });
