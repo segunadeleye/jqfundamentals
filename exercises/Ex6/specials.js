@@ -8,7 +8,7 @@ Specials.prototype.init = function() {
     .find('li.buttons')
     .remove();
   this.getList();
-  this.filter
+  this.filter();
 }
 
 Specials.prototype.getList = function() {
@@ -16,7 +16,7 @@ Specials.prototype.getList = function() {
     url: 'specials.json',
     dataType: 'json',
     success: function(result) {
-      saveList(result);
+      that.saveList(result);
     },
     cache: false
   });
@@ -26,10 +26,9 @@ Specials.prototype.saveList = function(list) {
   this.list = list;
 }
 
-Specials.prototype.filter = function(list) {
+Specials.prototype.filter = function() {
   var $specials = $('#specials');
   $div = $('<div />');
-
   $specials.append($div)
 
   $specials
@@ -48,7 +47,6 @@ Specials.prototype.display = function(data) {
   var $title = $('<h2 />');
   var $text = $('<p />');
   var $image = $('<img />');
-
   $div.append($title, $text, $image);
   
   $title
