@@ -4,7 +4,7 @@ function ProductList() {
 
 ProductList.prototype.init = function() {
   that = this;
-  this.getProductDetails(this.getList);
+  this.getProductDetails();
 
   var $brands = $('#brands').find('input');
   var $colors = $('#colors').find('input');
@@ -20,18 +20,18 @@ ProductList.prototype.init = function() {
   });
 }
 
-ProductList.prototype.getProductDetails = function(callback) {
+ProductList.prototype.getProductDetails = function() {
   $.ajax({
     url: 'product.json',
     dataType: 'json',
     success: function(data) {
-      callback(data);
+      that.saveList(data);
     },
     cache: false
   });
 }
 
-ProductList.prototype.getList = function(response) {
+ProductList.prototype.saveList = function(response) {
   that.list = response;
   that.getAllProducts(that.list);
 }
@@ -56,8 +56,10 @@ ProductList.prototype.getAllProducts = function(data) {
 
 ProductList.prototype.filterProducts = function(brands, colors, productStatus) {
   var $productList = $('#productList');
+  var filterOptions;
+  var filter = [];
   $productList
-    .find('div')
+    .find('div:visible')
     .hide();
 
   if (brands.length) {
@@ -66,28 +68,32 @@ ProductList.prototype.filterProducts = function(brands, colors, productStatus) {
       if (colors.length) {
         colors.each(function() {
           colorClass = '.' + $(this).val();
-          var productClass = brandClass + colorClass + productStatus;
-          $productList
-            .find('div' + productClass)
-            .show();
+          filterOptions = brandClass + colorClass + productStatus;
+          filter.push(filterOptions)
         });
       } else {
-        $productList
-          .find('div' + brandClass + productStatus)
-          .show();
+        filterOptions = brandClass + productStatus;
+        filter.push(filterOptions)
       }
     });
   } else if (colors.length) {
     colors.each(function() {
-      $productList
-        .find('div.' + $(this).val() + productStatus)
-        .show();
+      colorClass = '.' + $(this).val();
+      filterOptions = colorClass + productStatus;
+      filter.push(filterOptions)
     });
   } else {
     $productList
-      .find('div' + productStatus)  
+      .find('div' + productStatus)
       .show();
+    return;
   }
+  filter = filter.join(',');
+  console.log(filter);
+
+  $productList
+    .find(filter)
+    .show();
 }
 
 ProductList.prototype.displayProducts = function(product) {
@@ -96,9 +102,9 @@ ProductList.prototype.displayProducts = function(product) {
     productStatus = 'available';
   }
   var $div = $('<div />')
-              .addClass(product.brand)
-              .addClass(productStatus)
-              .addClass(product.color);
+    .addClass(product.brand)
+    .addClass(productStatus)
+    .addClass(product.color);
   $name = $('<p />').text('Product Name: ' + product.name);
   $image = $('<img />').attr('src', 'images/' + product.url);
   $div.append($name, $image);
