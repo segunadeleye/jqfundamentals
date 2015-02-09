@@ -4,6 +4,9 @@ function Specials() {
 
 Specials.prototype.init = function() {
   that = this;
+  $('#specials')
+    .find('li.buttons')
+    .remove();
   this.getList();
   this.filter
 }
@@ -27,16 +30,13 @@ Specials.prototype.filter = function(list) {
   var $specials = $('#specials');
   $div = $('<div />');
 
-  $specials
-    .append($div)
-    .find('li.buttons')
-    .remove();
+  $specials.append($div)
 
   $specials
     .find('select')
     .change(function() {
       var day = $(this).val();
-      var special = list[day];
+      var special = that.list[day];
       $div.empty();
       if (special) {
         that.display(special);        
