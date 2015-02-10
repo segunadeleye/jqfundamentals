@@ -89,8 +89,6 @@ ProductList.prototype.filterProducts = function(brands, colors, productStatus) {
     return;
   }
   filter = filter.join(',');
-  console.log(filter);
-
   $productList
     .find(filter)
     .show();
