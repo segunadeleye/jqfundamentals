@@ -1,9 +1,7 @@
-
 function Tabs() {
 }
 
 Tabs.prototype.showContent = function() {
-    
   var $modules = $('.module');
   $modules.hide();
 
@@ -44,7 +42,6 @@ Tabs.prototype.showContent = function() {
     .show();
 }
   
-
 $(document).ready(function() {
   var tabs = new Tabs();
   tabs.showContent();
