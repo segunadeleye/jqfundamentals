@@ -11,11 +11,11 @@ SlideShow.prototype.slide = function() {
     .find('li')
     .hide();
 
+  this.createNavArea();
+
   $slides
     .find('li:first')
     .fadeIn(this.fadeSpeed, this.slideShow());
-
-  this.createNavArea();
 }
 
 SlideShow.prototype.slideShow = function() {
